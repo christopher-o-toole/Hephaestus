@@ -5,6 +5,7 @@ import cv2
 import base64
 import threading
 
+from template import HTML5Template
 from time import sleep
 from multiprocessing import Event, JoinableQueue
 
@@ -15,6 +16,7 @@ from sanic.response import json, stream
 from realsense import Realsense, REALSENSE_STREAM_WINDOW
 
 app = Sanic(__name__)
+app.static('/static', './static')
 
 NUMBER_OF_CORES = multiprocessing.cpu_count()
 DEBUG = True
@@ -28,13 +30,14 @@ class Hephaestus():
         self._workers = workers
         self._debug = debug
         self._img_queue = JoinableQueue()
+        self._template = HTML5Template()
 
     def run(self):
         stop = Event()
 
         @app.route('/')
         async def index(request):
-            return response.html('''<img src="/camera-stream/">''')
+            return response.html(self._template.index)
 
         async def realsense_stream(response):
             while not stop.is_set():
