@@ -1,4 +1,5 @@
 from server import Hephaestus
 
 def test_server():
-    hephaestus = Hephaestus()
+    with Hephaestus() as hephaestus:
+        hephaestus.run()

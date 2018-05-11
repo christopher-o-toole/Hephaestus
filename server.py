@@ -47,8 +47,12 @@ class Hephaestus():
         async def camera_stream(request):
             return stream(realsense_stream, content_type='multipart/x-mixed-replace; boundary=frame')
 
+        @app.listener('before_server_stop')
+        async def notify_server_stopping(app, loop):
+            if not stop.is_set():
+                stop.set()
+
         app.run(host=self._host, port=self._port, workers=self._workers, debug=self._debug) 
-        stop.set()
 
     def __enter__(self):
         self._realsense = Realsense((640, 480))

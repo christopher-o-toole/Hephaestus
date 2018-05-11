@@ -7,7 +7,7 @@ REALSENSE_STREAM_WINDOW = 'librealsense 2.0 viewer'
 class Realsense():
     NUMBER_OF_TRIES = 5
     COLORMAP_ALPHA = .03
-    FPS = 30
+    FPS = 60
 
     def __init__(self, color_res, depth_res=None, fps=FPS, color_format=rs.format.bgr8, depth_format=rs.format.z16):
         if depth_res is None:
